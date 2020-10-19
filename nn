@@ -1,0 +1,17 @@
+from flask import Flask,jsonify
+import requests
+from flask import request
+
+
+app=Flask(__name__)
+
+@app.route("/processjson", methods=['POST'])
+
+def processjson():
+    data = request.get_json()
+    print(data)
+    return jsonify({'result' : 'success'})
+
+
+if __name__ == '__main__':
+    app.run(debug=False)
