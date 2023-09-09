@@ -29,3 +29,59 @@ Partition-based clustering can handle spatial clusters and noisy data.--incorrec
 Partition-based clustering is a type of unsupervised learning algorithm. -- incorrect
 
 Partition-based clustering produces sphere-like clusters. --correct
+
+
+Question 1 Which of the following is not true about Machine Learning?
+Machine learning gives computers the ability to make decision by writing down rules and methods and being explicitly programmed.
+
+Question 2 Which of the following is not a Machine Learning technique?Heuristics
+
+3. Question 3 Which of the following is true for Multiple Linear Regression?
+Multiple independent variables are used to predict a dependent variable.
+
+Which of the below is an example of a classification problem?
+all the above
+
+When is logistic regression more suitable than linear regression?
+When we want the probability of a point belonging to a class. 
+
+Which statement is FALSEabout k-means clustering?
+As k-means is an iterative algorithm, it guarantees that it will always converge to the global optimum.
+
+Which of the following statements is false for k-means clustering?
+k-means clustering creates a tree of clusters
+
+What is a hyperplane in SVM?
+Classes--incorrect
+Decision boundaries
+
+
+
+In comparison to mean absolute error, mean squared error:
+­Avoids cancellation of errors.--incorrect
+Is more interpretable by taking the same unit as the response.
+
+
+
+When are decision trees more suitable than regression trees?
+Some of the independent variables are categorical.--incorrect
+The dependent variable is categorical instead of continuous--correct
+
+
+
+In which of the following would you use Multiple Linear Regression?
+Recommend products to customers based on their demographic characteristics.--incorrect
+
+
+Which of the following is an example of Logistic Regression?
+all the above
+
+Which of the following statements is true for k-means clustering?
+all the aobve
+
+k-means can be used for:
+Detecting credit card fraud by identifying transaction outliers.
+
+
+
+
