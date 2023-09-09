@@ -1,0 +1,31 @@
+Graded Quiz: Clustering
+The objective of k-means clustering is: 
+
+Separate dissimilar samples and group similar ones--correct
+
+
+ Which option correctly orders the steps of k-means clustering? 
+ 
+ Re-cluster the data points Choose k random observations to calculate each cluster’s mean Update centroid to take cluster mean Repeat until centroids are constant Calculate data point distance to centroids 
+
+2, 5, 3, 1, 4--correct
+
+Question 3 How can we gauge the performance of a k-means clustering model when ground truth is not available? 
+
+Calculate the number of incorrectly classified observations in the training set. --incorrect
+Determine the prediction accuracy on the test set.--incorrect
+Take the average of the distance between data points and their cluster centroids.--correct
+
+
+4. Question 4 When the parameter K for k-means clustering increases, what happens to the error?
+
+It might increase or decrease depending on if data points are closer to the centroid. --incorrect
+It will increase because incorrectly classified points are further from the correct centroid.--incorrect
+It will decrease because distance between data points and centroid will decrease.--correct
+
+5. Question 5 Which of the following is true for partition-based clustering but not hierarchical nor density-based clustering algorithms? 
+
+Partition-based clustering can handle spatial clusters and noisy data.--incorrect
+Partition-based clustering is a type of unsupervised learning algorithm. -- incorrect
+
+Partition-based clustering produces sphere-like clusters. --correct
