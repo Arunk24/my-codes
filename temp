@@ -1,8 +1,6 @@
-Sparse embeddings are a powerful technique in natural language processing, especially for large vocabularies. They represent words or phrases as high-dimensional vectors with only a few non-zero values, making them memory-efficient and computationally efficient.   
+Dense embeddings represent words or phrases as dense vectors, where all dimensions have non-zero values. Rasa Pro leverages dense embeddings in several ways:
 
-Rasa Pro, a conversational AI platform, leverages sparse embeddings in various components of its NLU pipeline:   
-
-Intent Classification: Sparse feature vectors are extracted from text, converted to dense embeddings, and fed into a classification model to predict user intent.   
-Entity Extraction: Similar to intent classification, sparse embeddings are used to identify and classify entities in text.
-Dialogue Management: Sparse embeddings can represent dialogue history, aiding the dialogue manager in making informed decisions.
-Benefits of sparse embeddings in Rasa Pro include improved performance, enhanced accuracy, better handling of OOV words, and reduced memory footprint, leading to more robust and efficient conversational AI systems.
+Pre-trained Language Models: Rasa Pro utilizes pre-trained language models like BERT or RoBERTa, which provide powerful dense embeddings for words and sentences.
+Custom Embedding Layers: Rasa Pro allows you to create custom embedding layers within your NLU pipeline. These layers can learn dense embeddings tailored to your specific domain and dataset.
+Dialogue Management: Dense embeddings can represent dialogue history, improving the dialogue manager's decision-making.
+While sparse embeddings are efficient, dense embeddings often offer superior performance, especially for complex language understanding tasks. By effectively combining both techniques, Rasa Pro can build robust and accurate conversational AI systems.
