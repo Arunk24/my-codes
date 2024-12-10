@@ -1,1 +1,73 @@
-ITRS Geneos is a powerful real-time application monitoring platform. It offers comprehensive monitoring of applications and infrastructure, including dynamic environments. Key features include real-time insights, proactive alerting, advanced analytics, and seamless integration with other IT tools. By providing early detection of issues and actionable insights, Geneos helps organizations improve application performance, reduce downtime, and enhance overall IT efficiency.
+Understanding the Goal
+
+To clarify, you want to:
+
+Remove responses from the Rasa Core domain file.
+Delegate response generation solely to an NLG server.
+Why This Approach?
+
+This approach can be beneficial for several reasons:
+
+Centralized Response Management: NLG servers can provide a centralized platform for managing and customizing responses.
+Enhanced Flexibility: NLG servers can leverage advanced techniques like template-based generation, rule-based systems, or even machine learning models to generate more sophisticated and contextually relevant responses.   
+Improved Maintainability: Separating response generation from the core dialogue management can make the system easier to maintain and update.
+How to Implement This
+
+Here's a step-by-step guide on how to achieve this:
+
+Configure NLG Server:
+
+Choose an NLG Server: Select a suitable NLG server like Rasa NLG, or consider using a custom implementation.
+Set Up the Server: Configure the server to receive requests from Rasa Core and generate appropriate responses based on the provided context and intent.
+Integrate with Rasa: Update your Rasa configuration (endpoints.yml) to point to the NLG server's endpoint.
+Modify Rasa Core Domain:
+
+Remove Responses: Remove the responses section from your domain file.
+Define Actions: Define custom actions that will trigger the NLG server. These actions will send relevant information (intent, entities, slots, etc.) to the NLG server and receive the generated response.
+Implement Custom Actions:
+
+Create Custom Actions: Write Python code for custom actions that will:
+Extract necessary information from the tracker.
+Send a request to the NLG server with the extracted information.
+Receive the generated response from the NLG server.
+Dispatch the response back to the user.
+Example:
+
+Domain File:
+
+YAML
+
+intents:
+  - greet
+  - goodbye
+
+actions:
+  - utter_greet
+  - utter_goodbye
+
+responses:
+  # Removed responses section
+Custom Action:
+
+Python
+
+from rasa_sdk import Action
+from rasa_sdk.events import SlotSet
+
+class ActionNLGGreet(Action):
+    def name(self) -> Text:
+        return "utter_greet"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> List[Dict[Text, Any]]:
+        # Send a request to the NLG server with the current tracker information
+        response = send_request_to_nlg_server(tracker)
+
+        dispatcher.utter_message(response)
+
+        return []
+Key Considerations:
+
+NLG Server Reliability: Ensure that the NLG server is robust and can handle the expected load.
+Error Handling: Implement error handling mechanisms to gracefully handle cases where the NLG server is unavailable or returns incorrect responses.
+Security: Consider security implications when communicating with the NLG server, especially if sensitive information is involved.
+By following these steps, you can effectively offload response generation to an NLG server, allowing you to focus on building more complex and engaging dialogue flows in Rasa Core.
