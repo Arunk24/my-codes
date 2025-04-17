@@ -1,73 +1,68 @@
-Understanding the Goal
+import pandas as pd
 
-To clarify, you want to:
+try:
+    old_df = pd.read_excel("responses_old.xlsx")
+    new_df = pd.read_excel("responses_new.xlsx")
+except Exception as e:
+    print(f"Error loading Excel files: {e}")
+    exit()
 
-Remove responses from the Rasa Core domain file.
-Delegate response generation solely to an NLG server.
-Why This Approach?
+print("Columns in responses_old.xlsx:", old_df.columns.tolist())
+print("First few rows of responses_old.xlsx:\n", old_df.head())
+print("\nColumns in responses_new.xlsx:", new_df.columns.tolist())
+print("First few rows of responses_new.xlsx:\n", new_df.head())
 
-This approach can be beneficial for several reasons:
+if 'Unnamed: 0' in old_df.columns:
+    old_df = old_df.drop(columns=['Unnamed: 0'])
+if 'Unnamed: 0' in new_df.columns:
+    new_df = new_df.drop(columns=['Unnamed: 0'])
 
-Centralized Response Management: NLG servers can provide a centralized platform for managing and customizing responses.
-Enhanced Flexibility: NLG servers can leverage advanced techniques like template-based generation, rule-based systems, or even machine learning models to generate more sophisticated and contextually relevant responses.   
-Improved Maintainability: Separating response generation from the core dialogue management can make the system easier to maintain and update.
-How to Implement This
+try:
+    old_df = old_df[['Response_Name', 'Response']]
+    new_df = new_df[['Response_Name', 'Response']]
+except KeyError as e:
+    print(f"Error: One of the required columns (Response_Name, Response) is missing: {e}")
+    print("Available columns in old_df:", old_df.columns.tolist())
+    print("Available columns in new_df:", new_df.columns.tolist())
+    exit()
 
-Here's a step-by-step guide on how to achieve this:
+merged_df = old_df.merge(new_df, on='Response_Name', how='outer', suffixes=('_old', '_new'))
 
-Configure NLG Server:
+added = []
+removed = []
+modified = []
 
-Choose an NLG Server: Select a suitable NLG server like Rasa NLG, or consider using a custom implementation.
-Set Up the Server: Configure the server to receive requests from Rasa Core and generate appropriate responses based on the provided context and intent.
-Integrate with Rasa: Update your Rasa configuration (endpoints.yml) to point to the NLG server's endpoint.
-Modify Rasa Core Domain:
+for index, row in merged_df.iterrows():
+    response_name = row['Response_Name']
+    
+    if pd.isna(row['Response_old']) and not pd.isna(row['Response_new']):
+        added.append({'Response_Name': response_name, 'Response': row['Response_new'], 'Status': 'Added'})
+    
+    elif pd.isna(row['Response_new']) and not pd.isna(row['Response_old']):
+        removed.append({'Response_Name': response_name, 'Response': row['Response_old'], 'Status': 'Removed'})
+    
+    elif row['Response_old'] != row['Response_new']:
+        modified.append({
+            'Response_Name': response_name,
+            'Response_Old': row['Response_old'],
+            'Response_New': row['Response_new']
+        })
 
-Remove Responses: Remove the responses section from your domain file.
-Define Actions: Define custom actions that will trigger the NLG server. These actions will send relevant information (intent, entities, slots, etc.) to the NLG server and receive the generated response.
-Implement Custom Actions:
+added_df = pd.DataFrame(added)
+removed_df = pd.DataFrame(removed)
+modified_df = pd.DataFrame(modified)
 
-Create Custom Actions: Write Python code for custom actions that will:
-Extract necessary information from the tracker.
-Send a request to the NLG server with the extracted information.
-Receive the generated response from the NLG server.
-Dispatch the response back to the user.
-Example:
+responses_df = pd.concat([added_df, removed_df], ignore_index=True)
 
-Domain File:
+with pd.ExcelWriter("comparison_results.xlsx", engine='openpyxl') as writer:
+    if not responses_df.empty:
+        responses_df.to_excel(writer, sheet_name='Responses', index=False)
+    else:
+        pd.DataFrame({'Message': ['No added or removed records.']}).to_excel(writer, sheet_name='Responses', index=False)
+    
+    if not modified_df.empty:
+        modified_df.to_excel(writer, sheet_name='Modified_responses', index=False)
+    else:
+        pd.DataFrame({'Message': ['No modified records.']}).to_excel(writer, sheet_name='Modified_responses', index=False)
 
-YAML
-
-intents:
-  - greet
-  - goodbye
-
-actions:
-  - utter_greet
-  - utter_goodbye
-
-responses:
-  # Removed responses section
-Custom Action:
-
-Python
-
-from rasa_sdk import Action
-from rasa_sdk.events import SlotSet
-
-class ActionNLGGreet(Action):
-    def name(self) -> Text:
-        return "utter_greet"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> List[Dict[Text, Any]]:
-        # Send a request to the NLG server with the current tracker information
-        response = send_request_to_nlg_server(tracker)
-
-        dispatcher.utter_message(response)
-
-        return []
-Key Considerations:
-
-NLG Server Reliability: Ensure that the NLG server is robust and can handle the expected load.
-Error Handling: Implement error handling mechanisms to gracefully handle cases where the NLG server is unavailable or returns incorrect responses.
-Security: Consider security implications when communicating with the NLG server, especially if sensitive information is involved.
-By following these steps, you can effectively offload response generation to an NLG server, allowing you to focus on building more complex and engaging dialogue flows in Rasa Core.
+print("Comparison results have been saved to 'comparison_results.xlsx' with two tabs: 'Responses' and 'Modified_responses'.")
