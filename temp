@@ -1,68 +1,8 @@
-import pandas as pd
+The CRFEntityExtractor in Rasa Pro uses Conditional Random Fields (CRF) for named entity recognition (NER), extracting custom entities like locations or cuisines from user messages. It employs the BILOU tagging scheme to handle single- and multi-word entities, relying on components like WhitespaceTokenizer, RegexFeaturizer, and CountVectorsFeaturizer for preprocessing.
+How It Works
+Preprocessing: Tokenizes and featurizes text, generating features like case, part-of-speech, or regex matches.
 
-try:
-    old_df = pd.read_excel("responses_old.xlsx")
-    new_df = pd.read_excel("responses_new.xlsx")
-except Exception as e:
-    print(f"Error loading Excel files: {e}")
-    exit()
+Training: Uses sklearn_crfsuite to train on annotated YAML data, learning to assign BILOU tags.
 
-print("Columns in responses_old.xlsx:", old_df.columns.tolist())
-print("First few rows of responses_old.xlsx:\n", old_df.head())
-print("\nColumns in responses_new.xlsx:", new_df.columns.tolist())
-print("First few rows of responses_new.xlsx:\n", new_df.head())
+Prediction: Outputs entities with confidence scores, e.g., { "value": "mexican", "entity": "cuisine", "confidence": 0.854 }.
 
-if 'Unnamed: 0' in old_df.columns:
-    old_df = old_df.drop(columns=['Unnamed: 0'])
-if 'Unnamed: 0' in new_df.columns:
-    new_df = new_df.drop(columns=['Unnamed: 0'])
-
-try:
-    old_df = old_df[['Response_Name', 'Response']]
-    new_df = new_df[['Response_Name', 'Response']]
-except KeyError as e:
-    print(f"Error: One of the required columns (Response_Name, Response) is missing: {e}")
-    print("Available columns in old_df:", old_df.columns.tolist())
-    print("Available columns in new_df:", new_df.columns.tolist())
-    exit()
-
-merged_df = old_df.merge(new_df, on='Response_Name', how='outer', suffixes=('_old', '_new'))
-
-added = []
-removed = []
-modified = []
-
-for index, row in merged_df.iterrows():
-    response_name = row['Response_Name']
-    
-    if pd.isna(row['Response_old']) and not pd.isna(row['Response_new']):
-        added.append({'Response_Name': response_name, 'Response': row['Response_new'], 'Status': 'Added'})
-    
-    elif pd.isna(row['Response_new']) and not pd.isna(row['Response_old']):
-        removed.append({'Response_Name': response_name, 'Response': row['Response_old'], 'Status': 'Removed'})
-    
-    elif row['Response_old'] != row['Response_new']:
-        modified.append({
-            'Response_Name': response_name,
-            'Response_Old': row['Response_old'],
-            'Response_New': row['Response_new']
-        })
-
-added_df = pd.DataFrame(added)
-removed_df = pd.DataFrame(removed)
-modified_df = pd.DataFrame(modified)
-
-responses_df = pd.concat([added_df, removed_df], ignore_index=True)
-
-with pd.ExcelWriter("comparison_results.xlsx", engine='openpyxl') as writer:
-    if not responses_df.empty:
-        responses_df.to_excel(writer, sheet_name='Responses', index=False)
-    else:
-        pd.DataFrame({'Message': ['No added or removed records.']}).to_excel(writer, sheet_name='Responses', index=False)
-    
-    if not modified_df.empty:
-        modified_df.to_excel(writer, sheet_name='Modified_responses', index=False)
-    else:
-        pd.DataFrame({'Message': ['No modified records.']}).to_excel(writer, sheet_name='Modified_responses', index=False)
-
-print("Comparison results have been saved to 'comparison_results.xlsx' with two tabs: 'Responses' and 'Modified_responses'.")
