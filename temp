@@ -1,8 +1,124 @@
-The CRFEntityExtractor in Rasa Pro uses Conditional Random Fields (CRF) for named entity recognition (NER), extracting custom entities like locations or cuisines from user messages. It employs the BILOU tagging scheme to handle single- and multi-word entities, relying on components like WhitespaceTokenizer, RegexFeaturizer, and CountVectorsFeaturizer for preprocessing.
-How It Works
-Preprocessing: Tokenizes and featurizes text, generating features like case, part-of-speech, or regex matches.
-
-Training: Uses sklearn_crfsuite to train on annotated YAML data, learning to assign BILOU tags.
-
-Prediction: Outputs entities with confidence scores, e.g., { "value": "mexican", "entity": "cuisine", "confidence": 0.854 }.
-
+Brief Description of Agentic AI
+Agentic AI refers to artificial intelligence systems that operate autonomously, making decisions and performing tasks with minimal human intervention. Unlike traditional AI, which reacts to predefined commands, agentic AI uses advanced technologies like large language models (LLMs), machine learning (ML), and natural language processing (NLP) to analyze data, set goals, plan, and execute complex, multi-step workflows. It mimics human-like decision-making by reasoning, adapting to dynamic environments, and learning from interactions. Key characteristics include:
+Autonomy: Executes tasks independently based on predefined objectives.
+Adaptability: Adjusts strategies in real-time using feedback loops and environmental data.
+Goal-Oriented: Breaks down complex tasks into subtasks and coordinates actions to achieve outcomes.
+Context Awareness: Understands nuanced user intent and maintains conversation context.
+Agentic AI builds on generative AI but emphasizes operational decision-making over content creation, making it ideal for dynamic, data-intensive environments like banking.
+Applications of Agentic AI
+Agentic AI has transformative potential across industries, including:
+Customer Service: Automates complex queries, personalizes responses, and escalates issues to human agents when needed.
+Financial Services: Analyzes market trends, manages risk, and creates personalized financial plans.
+Software Development: Automates code reviews, generates code from text descriptions, and streamlines incident response.
+Healthcare: Monitors patient data and adjusts treatment recommendations in real-time.
+Cybersecurity: Detects anomalies, responds to threats, and enhances network security.
+Supply Chain: Optimizes inventory and automates order placements.
+Applications in the Banking Sector (Software Side)
+In banking, particularly on the software side, agentic AI can enhance operational efficiency, improve customer and employee experiences, and reduce costs. For your focus on building a chatbot for internal issue resolution (incident creation, resolution, and FAQs), here’s how agentic AI can be utilized:
+Incident Creation and Resolution:
+Automated Incident Detection: Agentic AI can monitor IT systems, detect anomalies (e.g., system outages or software bugs), and automatically create incident tickets in platforms like Jira. It analyzes logs and user reports to prioritize issues based on severity.
+Dynamic Resolution Workflows: Unlike traditional chatbots, agentic AI can autonomously execute multi-step resolution processes. For example, it can integrate with IT management systems, diagnose issues, suggest fixes, and apply patches or escalate to human teams if needed. It learns from past incidents to improve resolution speed and accuracy.
+Proactive Monitoring: Continuously tracks system performance, flagging potential issues before they escalate, reducing downtime.
+Answering Frequently Asked Questions (FAQs):
+Context-Aware Responses: Agentic AI chatbots maintain conversation context across multiple interactions, understanding nuanced queries (e.g., “What’s the status of my ticket?”) and providing tailored answers by accessing internal databases or CRMs.
+Self-Service Automation: Employees can query the chatbot for policy details, compliance guidelines, or procedural information, reducing reliance on human support. The AI retrieves real-time data and adapts responses based on user history.
+Continuous Learning: The chatbot improves its responses over time by learning from employee interactions, reducing repetitive queries.
+Operational Efficiency:
+Workflow Automation: Agentic AI can automate repetitive tasks like password resets, software access provisioning, or compliance checks, tailoring actions to user-specific needs.
+Code and Quality Management: For software teams, AI agents can automate code reviews, flag issues, and ensure coding standards, boosting developer productivity.
+Scenario Planning: AI agents can simulate “what-if” scenarios for risk management or system upgrades, providing data-driven insights to optimize decisions.
+Enhanced Customer and Employee Experience:
+Personalized Support: The chatbot can anticipate employee needs (e.g., suggesting relevant FAQs based on recent incidents) and provide proactive solutions, improving satisfaction.
+Seamless Escalation: For complex issues, the AI can route queries to the appropriate team with full context, reducing resolution time.
+Conversational Banking: For customer-facing applications, agentic AI can handle tasks like loan approvals or account management, integrating with open banking platforms for personalized services.
+Benefits for Day-to-Day Operations
+Increased Productivity: Automates routine tasks, freeing employees for strategic work.
+Faster Resolution: Reduces incident resolution time through autonomous workflows.
+Cost Efficiency: Minimizes manual intervention, lowering operational costs.
+Scalability: Handles growing query volumes without additional resources.
+Improved Accuracy: Adapts and learns to provide precise, context-aware solutions.
+Challenges and Considerations
+Integration Complexity: Integrating agentic AI with existing banking systems requires careful planning to ensure compatibility.
+Ethical Concerns: Autonomous decision-making raises questions about accountability and bias, necessitating human oversight.
+Data Privacy: Handling sensitive banking data requires robust security and compliance measures.
+Trustworthiness: AI hallucinations or errors could lead to incorrect resolutions, requiring guardrails and monitoring.
+Recommendations for Implementation
+Start with Pilot Projects: Deploy agentic AI for specific use cases like incident management to test and refine capabilities.
+Leverage Existing Platforms: Use tools like IBM watsonx.ai, Salesforce Agentforce, or DigitalOcean’s GenAI Platform for scalable, user-friendly AI agent deployment.
+Ensure Data Access: Provide AI agents with access to real-time data via APIs and databases for accurate responses.
+Implement Guardrails: Set limits on AI autonomy (e.g., human approval for high-impact actions) to maintain trust and compliance.
+Train Teams: Educate employees on AI capabilities to encourage adoption and collaboration.
+PowerPoint Presentation Outline (Black and White, Minimalist)
+Below is a concise outline for a PowerPoint presentation. Each slide is text-only, black font on a white background, using a clear, professional font like Arial or Calibri.
+Slide 1: Title Slide
+Title: Agentic AI in Banking: Transforming Software Operations
+Subtitle: Enhancing Incident Management and FAQ Resolution
+Author: [Your Name]
+Date: June 17, 2025
+Slide 2: What is Agentic AI?
+Definition: Autonomous AI systems that make decisions, plan, and execute tasks with minimal human input.
+Key Features:
+Autonomy and goal-oriented behavior
+Adaptability to dynamic environments
+Context-aware responses using LLMs, ML, and NLP
+Evolution: From reactive chatbots to proactive, multi-step problem solvers.
+Slide 3: General Applications of Agentic AI
+Customer Service: Personalized query resolution
+Financial Services: Risk management, personalized financial planning
+Software Development: Code reviews, incident response
+Healthcare: Real-time patient monitoring
+Cybersecurity: Threat detection and response
+Supply Chain: Inventory optimization
+Slide 4: Agentic AI in Banking (Software Side)
+Incident Management:
+Automated ticket creation and prioritization
+Dynamic resolution workflows
+Proactive system monitoring
+FAQ Handling:
+Context-aware, real-time responses
+Self-service automation for employees
+Continuous learning from interactions
+Slide 5: Benefits for Day-to-Day Operations
+Increased productivity through task automation
+Faster incident resolution with autonomous workflows
+Cost efficiency by reducing manual intervention
+Scalability to handle growing query volumes
+Improved accuracy with adaptive learning
+Slide 6: Use Case: Chatbot for Internal Operations
+Objective: Build a chatbot for incident creation, resolution, and FAQs
+Capabilities:
+Detects and logs incidents in real-time
+Executes multi-step resolution processes
+Provides tailored FAQ responses using internal data
+Example: Resolves software access issues by verifying user permissions and provisioning access autonomously
+Slide 7: Challenges and Considerations
+Integration with existing banking systems
+Ethical concerns: Accountability and bias
+Data privacy and compliance requirements
+Trustworthiness: Preventing AI errors or hallucinations
+Slide 8: Recommendations for Implementation
+Start with pilot projects for incident management
+Use platforms like IBM watsonx.ai or Salesforce Agentforce
+Ensure real-time data access via APIs
+Implement guardrails for human oversight
+Train employees for AI adoption
+Slide 9: Conclusion
+Agentic AI transforms banking operations by automating complex tasks
+Enhances incident management and FAQ resolution
+Drives efficiency, scalability, and employee satisfaction
+Strategic implementation ensures compliance and trust
+Slide 10: References
+UiPath: Agentic AI Overview
+Moveworks: Agentic AI Use Cases
+Aisera: AI in Software Development
+IBM: Agentic AI in Banking
+Forbes: Agentic AI in Financial Services
+How to Create the PPT
+Use PowerPoint or Google Slides: Open a new presentation and select a blank template.
+Set Formatting:
+Font: Arial or Calibri, size 24 for titles, 18 for body text.
+Color: Black text on white background.
+Layout: Simple bullet points, no graphics or animations.
+Copy Content: Paste the slide content above into each slide.
+Save and Review: Save as “Agentic_AI_Banking.pptx” and review for clarity.
+If you need assistance generating the actual PPT file or further research, let me know! I can also analyze specific X posts or web sources for recent trends if you want deeper insights.
